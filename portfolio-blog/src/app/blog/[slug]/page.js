@@ -16,9 +16,9 @@ export default function PostPage({ params }) {
   }
 
   return (
-    <div>
+    <div className="max-w-[1200px] m-auto">
       <h1>{post.meta.title}</h1>
-      <article className="prose">
+      <article className="prose prose-lg dark:prose-invert mx-auto">
         <MDXRemote source={post.content} />
       </article>
     </div>
