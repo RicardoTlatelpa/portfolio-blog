@@ -7,6 +7,9 @@ export default function Home() {
             Welcome to my blog m%#&!f^cker
           </li>
           <li className="tracking-[-.01em]">Saving my changes soon b!@#$</li>
+          <li className="mb-2 tracking-[-.01em]">
+            <a href="/blog">blog</a>
+          </li>
         </ol>
       </main>
       <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
