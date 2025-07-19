@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function Home() {
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
@@ -8,7 +10,7 @@ export default function Home() {
           </li>
           <li className="tracking-[-.01em]">Saving my changes soon b!@#$</li>
           <li className="mb-2 tracking-[-.01em]">
-            <a href="/blog">blog</a>
+            <Link href="/blog"> blog</Link>
           </li>
         </ol>
       </main>
