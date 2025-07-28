@@ -1,7 +1,7 @@
 import { getAllPosts } from "@/lib/posts";
 import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
-import Carousel from "@/components/Carousel";
+import Carousel from "../../../components/Carousel";
 
 export async function generateStaticParams() {
   const posts = getAllPosts();
