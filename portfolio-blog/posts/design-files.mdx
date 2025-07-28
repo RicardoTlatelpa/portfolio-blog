@@ -1,0 +1,42 @@
+---
+title: "[Design Systems]"
+date: "2025-07-25"
+---
+
+![Alt text](/images/colors.png)
+
+<br />I approached the design system like an engineer(building from the ground up),
+focusing on reliability, scalability, and ease of maintenance. Rather jumping into
+full screens, I spent time crafting the atoms, then the molecules, then the organisms,
+the templates, and finally the screens.
+
+The color section was something I wanted to reflect on the personality of the application. Something scientific, safe, and luxurious. Each color serves a purpose, from semantic error/success states to soft neutrals that reduce visual fatigue. Font choices and spacing were guided by real usage context: small screens, fast decisions, sweaty fingers.
+
+## User experience
+
+When someone uses the app, I want them to feel like they’re interacting with a well-engineered companion, not a chaotic dashboard. I want users to feel like the app respects their time by making every tap feel intentional, fast, and rewarding.
+
+## The benefits
+
+The components, started to become templates, and templates started to become screens, and it was amazing to see how consistent the prototypal experiences started to become.
+
+This process also helped bridge the gap between design and engineering. I wasn’t just designing something that looked good, I was designing with implementation in mind, using utility first styling with NativeWind and keeping everything aligned with Figma.
+
+I was able to extend the tailwind library with all my custom fonts, colors, and spacings:
+
+```javascript
+// theme.js
+const colors = {
+  primary: {
+    50: '#E1EDFF',
+    100: '#C4DBFF',
+    200: '#A6C9FF',
+    300: '#89B6FF',
+    400: '#6BA4FF',
+    500: '#3A86FF',
+    600: '#005BEB',
+    700: '#0048BC',
+    800: '#00368D',
+    900: '#00245E',
+  },
+```
