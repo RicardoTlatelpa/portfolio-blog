@@ -15,7 +15,7 @@ export default function Carousel({ images }: CarouselProps) {
       <img
         src={images[current]}
         alt={`Slide ${current}`}
-        className="W-full rounded-lg object-cover"
+        className="w-full max-w-[700px] h-auto aspect-square object-cover rounded"
       />
       <div className="absolute inset-0 flex justify-between items-center px-4">
         <button

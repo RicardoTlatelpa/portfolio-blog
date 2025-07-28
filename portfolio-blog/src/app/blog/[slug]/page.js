@@ -11,7 +11,9 @@ export async function generateStaticParams() {
 export default function PostPage({ params }) {
   const posts = getAllPosts();
   const post = posts.find((p) => p.slug === params.slug);
-
+  const components = {
+    Carousel,
+  };
   if (!post) {
     notFound();
   }
@@ -20,7 +22,7 @@ export default function PostPage({ params }) {
     <div className="max-w-[1200px] m-auto">
       <h1>{post.meta.title}</h1>
       <article className="prose prose-lg dark:prose-invert mx-auto">
-        <MDXRemote source={post.content} components={Carousel} />
+        <MDXRemote source={post.content} components={components} />
       </article>
     </div>
   );
