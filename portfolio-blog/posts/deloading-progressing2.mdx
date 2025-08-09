@@ -2,3 +2,116 @@
 title: "[Deloading/Progressing Exercises pt2]"
 date: "2025-08-09"
 ---
+
+# Understanding Progression and Deload Types in Strength Training
+
+When you train without a plan it is easy to fall into random workouts  
+But when you follow structured programming you will often see two key elements at play
+
+**Progression** is how the difficulty of an exercise increases over time  
+**Deloading** is how and when the intensity is reduced to allow recovery
+
+In building my gym application I had to model each progression type and its recommended deload pairing in the database so the system can guide a user through training like a real coach would
+
+## Progression Types
+
+### 1. LINEAR
+
+**What it is**  
+You add a fixed amount of weight every time you successfully complete all the planned sets and reps
+
+**Example**  
+If you bench press 135 lbs for 3×8 today next time you do 140 lbs for 3×8
+
+**Recommended deload pairing**
+
+- Fixed amount drop after repeated failures
+- Trigger after two or three failed sessions in a row
+
+### 2. LINEAR WEEKLY
+
+**What it is**  
+Instead of adding weight every session you increase the load once per week
+
+**Example**  
+If you squat 200 lbs for 5×5 this week next week you try 205 lbs for 5×5
+
+**Recommended deload pairing**
+
+- Percentage drop after six to eight weeks
+- Trigger on a time schedule such as every eight weeks
+
+### 3. BLOCK
+
+**What it is**  
+You train in blocks of multiple weeks often three to six weeks then reset or adjust load after the block ends This is common in periodized programs
+
+**Example**  
+Weeks one to four gradually increase from eighty percent to ninety percent of your one rep max  
+Week five drop to seventy five percent and start a new block
+
+**Recommended deload pairing**
+
+- Percentage drop after each block
+- Trigger at block completion
+
+### 4. DOUBLE
+
+**What it is**  
+You increase weight only when you hit the top end of a rep range then reset reps lower and build up again
+
+**Example**  
+Bench 185 lbs for 3×8 Over time reach 3×10 Then increase to 190 lbs and drop back to 3×6 building up again
+
+**Recommended deload pairing**
+
+- Fixed drop after repeated failures
+- Trigger after two or three failed attempts at the top end of the rep range
+
+## Why This Matters in the App
+
+Each progression type requires specific tracking data and has its own deload logic
+
+<table>
+  <thead>
+    <tr>
+      <th>Progression Type</th>
+      <th>Recommended Deload Type</th>
+      <th>Trigger</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>LINEAR</td>
+      <td>Fixed</td>
+      <td>Failure based</td>
+    </tr>
+    <tr>
+      <td>LINEAR WEEKLY</td>
+      <td>Percentage</td>
+      <td>Time based</td>
+    </tr>
+    <tr>
+      <td>BLOCK</td>
+      <td>Percentage</td>
+      <td>Block completion</td>
+    </tr>
+    <tr>
+      <td>DOUBLE</td>
+      <td>Fixed</td>
+      <td>Failure based</td>
+    </tr>
+  </tbody>
+</table>
+
+By pairing these choices in the data model the app can
+
+- Suggest when to deload automatically
+- Apply the correct amount of weight reduction
+- Continue progression smoothly after a deload
+
+This means the app is not just a workout logger it is a coaching tool  
+It helps structure training so that users make steady gains while managing fatigue and recovery
+
+When a user selects an exercise and progression type the app knows what to track when to push harder and when to pull back  
+That is how random gym sessions become a purposeful training journey
