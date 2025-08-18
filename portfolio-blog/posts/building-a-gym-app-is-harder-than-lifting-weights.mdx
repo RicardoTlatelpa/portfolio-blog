@@ -1,6 +1,6 @@
 ---
 title: "[Building a Gym App Is Harder Than Lifting Weights]"
-date: "2025-08-03"
+date: "2025-08-17"
 ---
 
 When I first started building my gym app, I thought it would be simple:
@@ -13,7 +13,6 @@ Designing an app that can handle beginner friendly linear progression, intermedi
 ## From Linear Progression to Complex Training styles
 
 Most beginners train using linear progression. It's straight forward: if you squat 135 lbs for 5x5 today, next time you try 140lbs. Simple.
-
 
 But as lifters get stronger, training complexity increases. I learned about different progression strategies.
 
@@ -44,15 +43,16 @@ It's a challenge viewing the high level scope of training programming and trying
 On the backend, I model progression rules and deload rules per exercise/program.
 
 On the front-end, the user only sees what they need:
+
 - Pick an exercise
 - Define progression once(per program)
 - Define deload once(per program)
 - Add the exercise to multiple sessions, and the app automatically applies the rules when a user starts tracking their workout sessions in a program
 
-
 This allows for a seamless tracking experience. If a user adds Bench press to Monday and Friday sessions, they don't have to redefine progression rules twice for that program. They just lift, log, and let the app handle the structure.
 
 For the user, the benefit is simple:
+
 - they get a clear roadmap for progression
 - they don't have to manually calculate when to add weight or when to deload
 - the app adapts to their training styles and level
@@ -60,6 +60,3 @@ For the user, the benefit is simple:
 All they really need to in the gym is focus on form and consistency.
 
 Behind the scenes, the app's schema is doing all the heavy lifting, tracking their lifts and sessions, and determining their weekly schedule based on the program they are subscribed to.
-
-
-
