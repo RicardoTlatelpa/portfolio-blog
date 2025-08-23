@@ -1,0 +1,30 @@
+---
+title: "[Workflows]"
+date: "2025-08-23"
+---
+
+I found a new workflow while working on my application.
+
+### **The problem**
+
+I found myself lost in so many contexts. Since taking on this project from scratch (from the atomic design to the modular front-end architecture), I was lost in learning about building efficient infrastructures for my application. I was lost in the UX/UI of the application. I found myself lost in the API design of the application, and I especially found myself lost in the data modeling of the application. Since I had a foundation in all these topics, I delved deep into each of them respectively, trying to find the best solutions for my gym application. I want something blazingly fast, but also something that can capture everything a user needs to track their workouts and eventually be able to progress as best as they can in the gym. I’m hoping this application can help de-mystify the gym and make it easy to perform, instead of the gym being something scary or extremely difficult to do.
+
+This purpose drove me to find an efficient way to navigate around all the contexts involved in creating the application. It’s actually a very simple workflow. It’s something that every engineer talks about when you’re first starting out.
+
+## **Breaking down problems into smaller problems**
+
+I had gotten good at this during my LeetCode journey, and I had built full-stack projects before. The difference between computer science problem sets and huge applications is that there are many components in a large full-scale application compared to a problem set that doesn’t deal with such a large input set. When I’m solving LeetCode problems or learning a new pattern, I can keep a lot of the math or the data structures in the back of my head. But when you want to build something that users want to use, a lot of it is hard to keep in the back of your head, so you need an auxiliary data structure. I use Notion to write down what a feature is going to do, and then I break it down into different aspects of the stack.
+
+### **An example**
+
+Say I want to add a new feature where I capture some sort of metadata for tracking a workout. I would have to think about it in terms of the data modeling (editing the database schema). Then I would have to think about it in terms of the API request that has to be made to input this data into the database, and then I would have to think about this new metadata feature in the context of front-end engineering. That piece of data would have to be collected in some sort of creation workflow form, and then it would be a part of the tracking user experience. There are more layers I can go into, like front-end form validations and backend validations, but those are the kinds of thoughts that I place inside a task list with the title of the task being the feature’s intended purpose.
+
+### **Feature worth the trouble?**
+
+Sometimes I find myself so involved in debugging a piece of the infrastructure, or redefining the schema, or even creating a new front-end component, and I start getting bugs everywhere. Then I start questioning myself: is this feature worth the trouble? That’s why, before a feature is created, I like to think about the purpose and the vision of the application.
+
+## **The vision**
+
+As the engineer and the designer of the application, sometimes my creativity and curiosity can stray me from the path of building the application I thought of in the first place. I start thinking of so many cool features that can be included. I start to think of user experiences that would be fun to add. All these things are nice, and can _eventually_ be added to the application, but the main service (the main purpose of the application) has to be built first before any other additional features can even be developed.
+
+So many concepts and ideas, and even the purpose of the application, became clearer to me as I chipped away at its core features. I’m hoping to lock down the development of these features before building additional ones around them that amplify their value
