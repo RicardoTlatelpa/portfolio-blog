@@ -1,0 +1,74 @@
+---
+title: "Building Momentum: Weekly Progress on the Gym App"
+date: "2025-09-21"
+tags: ["gym-app", "development", "react-native", "zustand", "system-design"]
+---
+
+# Building Momentum: Weekly Progress on the Gym App
+
+This past week was all about connecting the dots between the **UI** and our **Zustand program builder store**. Each step we take gets us closer to a smooth experience for users creating and managing their workouts.
+
+## What We Accomplished
+
+### 1. Workout Session Exercise Display
+
+We implemented a way to **display exercises inside a session** as they are being created. This includes:
+
+- The **activity template** (what the exercise is based on)
+- Its **progression rules**
+- Its **deload rules**
+
+This makes sessions much more transparent—users can now see exactly how their workouts are structured, not just which exercises were added.
+
+### 2. New Selector in `useProgramBuilder`
+
+We introduced a new function, `makeSelectSessionExerciseViews`, that pulls together everything needed for rendering exercises in a workout session. This selector:
+
+- Grabs the exercise data
+- Connects it with the right activity template
+- Merges progression and deload rules into a single view
+
+This significantly reduces complexity when working with exercises in the UI.
+
+### 3. Updated Workout Session Exercise Card
+
+The **WorkoutSessionExerciseCard** component was updated to use this new structure. Instead of juggling multiple props and states, it now cleanly receives the exercise view object and renders:
+
+- Exercise name
+- Activity details
+- Progression & deload logic
+
+This makes the UI more **consistent and reliable**.
+
+### 4. Cleaner `WorkoutSessions` Screen
+
+The **WorkoutSessions** screen was updated to display the new exercise cards properly. Now, when users add exercises, they immediately see them represented in full detail.
+
+### 5. Store Improvements
+
+In the program builder store, we cleaned up legacy code and aligned everything with the new exercise variation model. This ensures:
+
+- Every exercise in a session is treated as a **variation**
+- No leftover logic from outdated approaches clutters the store
+
+This makes the codebase easier to maintain and extend.
+
+## Why This Matters
+
+These updates might seem technical, but they directly impact the **user experience**:
+
+- Clearer visualization of workout sessions
+- Less confusion about progression and deloading
+- A smoother flow between backend logic and frontend presentation
+
+It also sets the foundation for **future features** like editing exercises directly in a session, previewing session difficulty, and syncing with the program exercise library.
+
+## What’s Next
+
+Looking ahead, we plan to:
+
+- Expand the **Program Exercise Library** with more detailed variation views
+- Implement better search and filtering for exercises
+- Start refining the **multi-step program creation flow**
+
+Each of these steps pushes us closer to the polished, user-friendly gym application we’ve envisioned. 🚀
