@@ -11,7 +11,7 @@
   "dependencies": {
     "@tailwindcss/typography": "^0.5.16",
     "gray-matter": "^4.0.3",
-    "next": "15.3.5",
+    "next": "^15.5.9",
     "next-mdx-remote": "^5.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
