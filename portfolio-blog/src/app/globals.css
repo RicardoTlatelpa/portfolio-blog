@@ -253,6 +253,43 @@ pre code {
   transition-duration: 150ms;
 }
 
+/* Swipe-in animation for homepage */
+@keyframes slideInFromLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.slide-in-left {
+  animation: slideInFromLeft 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  opacity: 0;
+}
+
+.slide-delay-1 {
+  animation-delay: 0.1s;
+}
+
+.slide-delay-2 {
+  animation-delay: 0.2s;
+}
+
+.slide-delay-3 {
+  animation-delay: 0.3s;
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  .slide-in-left {
+    animation: none;
+    opacity: 1;
+  }
+}
+
 nextjs-portal {
   display: none !important;
 }

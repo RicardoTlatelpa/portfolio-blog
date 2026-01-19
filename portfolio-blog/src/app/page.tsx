@@ -9,16 +9,19 @@ export default function Home() {
       {/* Hero Section */}
       <section className="mx-auto max-w-7xl px-6 lg:px-8 pt-20 pb-16">
         <div className="mx-auto max-w-3xl text-center">
-          <h1 className="text-5xl font-bold tracking-tight text-[var(--foreground)] sm:text-6xl lg:text-7xl mb-6">
+          <h1 className="text-5xl font-bold tracking-tight text-[var(--foreground)] sm:text-6xl lg:text-7xl mb-6 slide-in-left">
             Developer Blog
           </h1>
+          <p className="text-xl text-[var(--muted-foreground)] leading-8 mb-12 slide-in-left slide-delay-1">
+            Insights on building software, engineering practices, and technology
+          </p>
         </div>
       </section>
 
       {/* Featured Posts */}
       <section className="mx-auto max-w-7xl px-6 lg:px-8 pb-24">
         <div className="mx-auto max-w-3xl">
-          <div className="flex items-center justify-between mb-8">
+          <div className="flex items-center justify-between mb-8 slide-in-left slide-delay-2">
             <h2 className="text-2xl font-semibold text-[var(--foreground)]">
               Latest Articles
             </h2>
@@ -31,11 +34,12 @@ export default function Home() {
           </div>
 
           <div className="space-y-8">
-            {posts.map((post) => (
+            {posts.map((post, index) => (
               <Link
                 key={post.slug}
                 href={`/blog/${post.slug}`}
-                className="block group"
+                className="block group slide-in-left"
+                style={{ animationDelay: `${300 + index * 100}ms` }}
               >
                 <article className="border border-[var(--border)] rounded-lg p-6 hover:border-[var(--accent)] transition-all duration-200 hover:shadow-lg">
                   <div className="flex items-start justify-between gap-4 mb-3">
