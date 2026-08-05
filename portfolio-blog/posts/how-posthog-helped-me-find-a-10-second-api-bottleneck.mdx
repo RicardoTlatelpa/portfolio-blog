@@ -1,0 +1,235 @@
+---
+title: "How PostHog Helped Me Find a 10-Second API Bottleneck"
+date: "2026-08-05"
+tags: ["ufit", "api", "posthog", "performance", "architecture"]
+---
+
+When I first started measuring my API performance, I expected to find a few slow database queries.
+
+Instead, I discovered that some of the most important endpoints in UFIT were taking **10–19 seconds** to complete.
+
+That investigation completely changed how I think about backend performance.
+
+## Measuring before optimizing
+
+One of the first things I built into UFIT was API instrumentation with PostHog.
+
+Every important request records:
+
+- API latency
+- Database execution time
+- Success / failure rate
+- Request path
+- Client timeout information
+
+Almost immediately, one pattern stood out:
+
+- **Subscribe Program** — 11–19s
+- **`PATCH /programs/:id`** — ~10.5s median
+- **Save Active Session** — 3–8s
+- **`PATCH` Workout Blueprint** — 3–5s
+
+The slow endpoints all had one thing in common.
+
+They weren't database bound.
+
+They were **hydration bound**.
+
+## The real problem wasn't the database
+
+At first I assumed:
+
+> My SQL queries must be slow.
+
+After measuring database execution separately from total request time, that assumption turned out to be wrong.
+
+The expensive part happened *after* the transaction finished.
+
+The server was assembling an enormous response.
+
+Instead of returning only the data the screen needed, every endpoint rebuilt an entire hydrated program. Conceptually, it looked like this:
+
+```
+ProgramHydratedPayload
+├── Program
+├── Sessions
+├── Exercises
+├── Activity Templates
+├── Exercise Library
+├── Progress State
+├── Anchors
+├── Runnable Validation
+├── Schedule Projection
+├── Workout History
+└── In Progress Workout
+```
+
+Every save.
+
+Every subscribe.
+
+Every edit.
+
+Rebuilt all of it — even if the user had only changed the program name.
+
+## The fan-out problem
+
+`GET /programs/:id` wasn't a single database lookup.
+
+It was a fan-out assembly process:
+
+```
+Program
+ ├── Blueprints
+ ├── Schedule
+ ├── Exercises
+ ├── Exercise Library
+ ├── Variations
+ ├── Progress States
+ ├── Anchors
+ ├── Workout History
+ ├── Current Workout
+ └── Schedule Projection
+```
+
+Each layer required more database work. Then the server merged everything into one large JSON payload.
+
+The response body alone was often around **176KB** — but the real cost wasn't network bandwidth.
+
+It was the CPU work required to build that object.
+
+## Why every save was expensive
+
+Originally, every caller expected the same response:
+
+```
+GET /programs/:id
+        ↓
+  Entire Program
+```
+
+After a user renamed a program:
+
+```
+PATCH /programs/:id
+        ↓
+ Rebuild entire program
+        ↓
+  Return entire program
+```
+
+Even though only one field had changed.
+
+The client only needed confirmation that the save succeeded. Instead, it downloaded the entire application state again.
+
+## Introducing ETags
+
+This was where HTTP caching became useful.
+
+An ETag is essentially a version sticker attached to a resource. Imagine every program has a label like:
+
+```
+Program #42
+Version: July 28, 3:40 PM
+```
+
+The first request works normally:
+
+```
+Client  →  GET Program
+Server  →  Program + ETag
+```
+
+The application stores both. The next time the program is opened:
+
+```
+GET Program
+If-None-Match: abc123
+```
+
+Now the server compares versions. If nothing changed:
+
+```
+304 Not Modified
+```
+
+No giant payload. No hydration. Almost no work.
+
+The application simply reuses what it already has.
+
+Only when the program changes does the server generate a new ETag and send a fresh payload.
+
+## Measuring user behavior matters
+
+One thing this investigation taught me is that optimization depends heavily on user behavior.
+
+How often do users actually edit their programs?
+
+There are three very different kinds of data inside UFIT.
+
+### Blueprint changes
+
+Things like exercises, schedule, sets, and reps.
+
+These probably change relatively infrequently.
+
+### Progression changes
+
+Things like target weights and progression state.
+
+These change almost every completed workout.
+
+### Session runtime
+
+Things like completed sets, the current workout, and rest timers.
+
+These change continuously during a workout.
+
+Those change rates determine the architecture.
+
+If blueprints rarely change, caching becomes extremely effective.
+
+If everything changes constantly, the solution isn't caching — it's splitting the API into smaller pieces.
+
+## The next step: smaller endpoints
+
+One thing became obvious after looking at the hydrated payload.
+
+Most screens don't actually need everything.
+
+For example, the program detail screen usually needs:
+
+- Program header
+- Runnable status
+- Upcoming schedule
+- Today's workout preview
+
+It does **not** need:
+
+- Every blueprint exercise
+- The complete exercise library
+- Every machine definition
+- All progression data
+
+Instead of returning one massive object, the API can eventually evolve toward endpoints like:
+
+- `/summary`
+- `/schedule`
+- `/exercises`
+- `/progression-state`
+
+Each screen would request only the data it actually needs.
+
+Less CPU. Less bandwidth. Lower latency. Simpler caching.
+
+## The biggest lesson
+
+The biggest takeaway wasn't slimming down API payloads or creating an ETag system.
+
+It was instrumentation.
+
+Without measuring request latency, database time, failure rate, and payload size, I would have optimized the wrong thing. I would have spent time tuning SQL queries that weren't actually the bottleneck.
+
+Instead, PostHog showed that the real problem was response assembly.
+
+That insight changed not only how I optimized these APIs, but also how I'm planning the next generation of UFIT's backend architecture.

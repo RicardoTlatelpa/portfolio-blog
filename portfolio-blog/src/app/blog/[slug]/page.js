@@ -12,10 +12,11 @@ export async function generateStaticParams() {
   return posts.map((post) => ({ slug: post.slug }));
 }
 
-export default function PostPage({ params }) {
+export default async function PostPage({ params }) {
+  const { slug } = await params;
   const posts = getAllPosts();
-  const post = posts.find((p) => p.slug === params.slug);
-  
+  const post = posts.find((p) => p.slug === slug);
+
   if (!post) {
     notFound();
   }
